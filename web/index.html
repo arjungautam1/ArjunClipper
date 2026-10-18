@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArjunClipper — The Smartest Clipboard Manager for macOS</title>
+  <meta name="description" content="ArjunClipper is a blazingly fast, privacy-first clipboard manager for macOS with ⌘+⇧+V bezel HUD, smart secret filtering, and persistent memory.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="brand">
+        <img src="icon.png" alt="ArjunClipper Logo" class="brand-icon">
+        <span class="brand-name">ArjunClipper</span>
+        <span class="version-tag">v2.0 Universal</span>
+      </div>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#demo">Interactive Demo</a>
+        <a href="#install">Install Guide</a>
+        <a href="ArjunClipper.dmg" download class="btn-nav-download">Download .dmg</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="container hero-content">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          <span>Designed for macOS 13+ • Apple Silicon & Intel</span>
+        </div>
+        
+        <h1 class="hero-title">
+          The Smartest Clipboard Manager for <span class="gradient-text">macOS</span>.
+        </h1>
+        
+        <p class="hero-subtitle">
+          Blazingly fast, keyboard-first history recall with instant <kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>V</kbd> HUD, 
+          intelligent privacy filters that block passwords & API secrets, and 100% native Swift performance.
+        </p>
+
+        <div class="hero-actions">
+          <a href="ArjunClipper.dmg" download class="btn-primary" id="download-btn">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <div class="btn-text">
+              <span class="btn-main">Download ArjunClipper for Mac</span>
+              <span class="btn-sub">Universal .dmg • ~3.0 MB • Free</span>
+            </div>
+          </a>
+          <a href="#demo" class="btn-secondary">
+            <span>Try Interactive Demo</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+
+        <div class="hero-meta">
+          <span>✓ Universal Binary (M1–M5 & Intel)</span>
+          <span>✓ Zero Cloud Tracking</span>
+          <span>✓ Runs Privately on Your Mac</span>
+        </div>
+
+        <div class="hero-preview">
+          <div class="macbook-screen">
+            <div class="menu-bar-mock">
+              <div class="menu-bar-left">
+                <span class="apple-logo"></span>
+                <span class="menu-item active">Finder</span>
+                <span class="menu-item">File</span>
+                <span class="menu-item">Edit</span>
+                <span class="menu-item">View</span>
+              </div>
+              <div class="menu-bar-right">
+                <span class="status-item arjun-status-icon active-highlight" title="ArjunClipper Menu Bar Item">
+                  <span class="a-sign">A</span>
+                </span>
+                <span class="status-item">🔋</span>
+                <span class="status-item">Wi-Fi</span>
+                <span class="status-item">100%</span>
+              </div>
+            </div>
+
+            <!-- SIMULATED BEZEL HUD -->
+            <div class="bezel-hud-card">
+              <div class="hud-header">
+                <span class="hud-title" id="hud-title">Clipping #1 of 5</span>
+                <span class="hud-app" id="hud-app">From Safari</span>
+              </div>
+              <div class="hud-body">
+                <pre class="hud-code" id="hud-content">https://github.com/apple/swift-package-manager</pre>
+              </div>
+              <div class="hud-footer">
+                <div class="hud-tip">
+                  <span class="key-pill">↑</span>
+                  <span class="key-pill">↓</span> Navigate
+                </div>
+                <div class="hud-tip">
+                  <span class="key-pill">Enter</span> Paste
+                </div>
+                <div class="hud-tip">
+                  <span class="key-pill">Esc</span> Dismiss
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE DEMO SECTION -->
+    <section class="section" id="demo">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Interactive Simulation</span>
+          <h2 class="section-title">Experience the Bezel HUD</h2>
+          <p class="section-desc">Click any clipping below or use your keyboard arrows to see how ArjunClipper cycles and pastes in real time.</p>
+        </div>
+
+        <div class="demo-grid">
+          <div class="clippings-list" id="clippings-list">
+            <!-- Dynamically populated via app.js -->
+          </div>
+
+          <div class="interactive-preview">
+            <div class="hud-standalone">
+              <div class="hud-glow"></div>
+              <div class="hud-header">
+                <span class="hud-title" id="demo-hud-title">Clipping #1 of 5</span>
+                <span class="hud-app" id="demo-hud-app">From VS Code</span>
+              </div>
+              <div class="hud-body">
+                <pre class="hud-code" id="demo-hud-content">Loading clipping...</pre>
+              </div>
+              <div class="hud-footer">
+                <span>Press <kbd>↑</kbd> / <kbd>↓</kbd> or click clippings to test</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES GRID -->
+    <section class="section features-section" id="features">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Engineered for Power Users</span>
+          <h2 class="section-title">Built with Pure Swift & REA Forensics</h2>
+          <p class="section-desc">Rebuilt from the ground up from Flycut with modern SwiftUI controls, military-grade privacy filters, and high-contrast HUD graphics.</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">⌨️</div>
+            <h3 class="feature-title">Global ⌘ + ⇧ + V Hotkey</h3>
+            <p class="feature-text">Native Carbon event listener triggers instantly across full-screen spaces and games without requiring Accessibility permissions.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <h3 class="feature-title">Smart Privacy Shield</h3>
+            <p class="feature-text">Automatically ignores 1Password/Bitwarden passwords, blocks PEM private keys, credit cards, and sensitive API bearer tokens.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">📌</div>
+            <h3 class="feature-title">Pinned Clippings</h3>
+            <p class="feature-text">Pin your recurring commands, code snippets, or templates. Pinned items are never auto-pruned when history overflows.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <h3 class="feature-title">100% Native Universal App</h3>
+            <p class="feature-text">Pure Swift and AppKit. Zero Electron bloat, starts in 15ms, and consumes under 18 MB of RAM while running forever in the background.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🎛️</div>
+            <h3 class="feature-title">Comprehensive Controls</h3>
+            <p class="feature-text">Set custom history limits from 10 to 1,000 items, adjust truncation lengths, and exclude sensitive apps like Terminal or Keychain.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">✨</div>
+            <h3 class="feature-title">Minimalist Menu Bar "A"</h3>
+            <p class="feature-text">Ultra-clean native Apple SF typography icon in your menu bar. Seamlessly adapts to dark mode and vibrant macOS wallpapers.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSTALLATION GUIDE -->
+    <section class="section install-section" id="install">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Quick Installation</span>
+          <h2 class="section-title">How to Install in 3 Easy Steps</h2>
+        </div>
+
+        <div class="steps-container">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h3>Download & Mount</h3>
+            <p>Download <a href="ArjunClipper.dmg" download class="inline-link">ArjunClipper.dmg</a> and double-click to open the disk image.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h3>Drag to Applications</h3>
+            <p>Drag the <strong>ArjunClipper.app</strong> icon directly into the <strong>Applications</strong> shortcut folder.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h3>Launch & Enjoy</h3>
+            <p>Right-click the app in Applications and click <strong>Open</strong> on first launch. Hit <kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>V</kbd> anywhere!</p>
+          </div>
+        </div>
+
+        <div class="gatekeeper-callout">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <h4>First-Time Opening Tip (macOS Gatekeeper)</h4>
+            <p>
+              Because ArjunClipper is distributed as an independent open-source project without Apple's $99/year developer tax, 
+              simply <strong>Right-Click (or Control-Click)</strong> ArjunClipper in Applications and choose <strong>Open</strong> the very first time. 
+              macOS will permanently remember your approval.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="cta-section">
+      <div class="container cta-content">
+        <img src="icon.png" alt="ArjunClipper" class="cta-logo">
+        <h2 class="cta-title">Ready for a faster, smarter clipboard?</h2>
+        <p class="cta-subtitle">Get ArjunClipper for macOS today. Completely free, privacy-first, and universal.</p>
+        <a href="ArjunClipper.dmg" download class="btn-primary btn-large">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <div class="btn-text">
+            <span class="btn-main">Download ArjunClipper.dmg</span>
+            <span class="btn-sub">Universal macOS 13+ • ~3.0 MB</span>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <span class="footer-brand">ArjunClipper</span>
+        <span class="footer-copy">© 2026 Crafted with precision for macOS. Reverse engineered with REA.</span>
+      </div>
+      <div class="footer-links">
+        <a href="ArjunClipper.dmg" download>Direct DMG Download</a>
+        <a href="#install">Install Guide</a>
+        <a href="#features">Features</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
