@@ -3,6 +3,7 @@ import Foundation
 public struct Clipping: Identifiable, Codable, Equatable {
     public let id: UUID
     public let content: String
+    public let htmlContent: String?
     public let timestamp: Date
     public let sourceAppName: String?
     public let sourceBundleId: String?
@@ -11,6 +12,7 @@ public struct Clipping: Identifiable, Codable, Equatable {
     public init(
         id: UUID = UUID(),
         content: String,
+        htmlContent: String? = nil,
         timestamp: Date = Date(),
         sourceAppName: String? = nil,
         sourceBundleId: String? = nil,
@@ -18,6 +20,7 @@ public struct Clipping: Identifiable, Codable, Equatable {
     ) {
         self.id = id
         self.content = content
+        self.htmlContent = htmlContent
         self.timestamp = timestamp
         self.sourceAppName = sourceAppName
         self.sourceBundleId = sourceBundleId

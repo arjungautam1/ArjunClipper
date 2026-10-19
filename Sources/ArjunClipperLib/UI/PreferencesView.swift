@@ -136,6 +136,16 @@ public struct PreferencesView: View {
                 Text("What to Copy (Rules & Security)")
                     .font(.headline)
                 
+                GroupBox(label: Text("AI Tools Formatting (ChatGPT, Claude, Gemini)")) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Toggle("Auto-clean AI Markdown artifacts (**bold**, `code`, etc.)", isOn: $prefs.cleanAIMarkdown)
+                        Text("Automatically removes raw asterisks like **word** and copies rich bold formatting directly so pasting into Google Docs, Word, or LinkedIn is clean and properly formatted.")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    .padding(6)
+                }
+                
                 GroupBox(label: Text("Sensitive Data Protection")) {
                     VStack(alignment: .leading, spacing: 10) {
                         Toggle("Ignore password managers (Transient / Concealed types)", isOn: $prefs.filter.ignoreTransientPasteboardTypes)

@@ -12,6 +12,7 @@ public final class PreferencesManager: ObservableObject {
         static let filter = "arjunclipper_filter"
         static let launchAtLogin = "arjunclipper_launchAtLogin"
         static let showMenuBarTitle = "arjunclipper_showMenuBarTitle"
+        static let cleanAIMarkdown = "arjunclipper_cleanAIMarkdown"
     }
     
     @Published public var historyLimit: Int {
@@ -24,6 +25,10 @@ public final class PreferencesManager: ObservableObject {
     
     @Published public var previewLength: Int {
         didSet { defaults.set(previewLength, forKey: Keys.previewLength) }
+    }
+    
+    @Published public var cleanAIMarkdown: Bool {
+        didSet { defaults.set(cleanAIMarkdown, forKey: Keys.cleanAIMarkdown) }
     }
     
     @Published public var filter: CopyFilter {
@@ -71,6 +76,12 @@ public final class PreferencesManager: ObservableObject {
             self.showMenuBarTitle = defaults.bool(forKey: Keys.showMenuBarTitle)
         } else {
             self.showMenuBarTitle = false
+        }
+        
+        if defaults.object(forKey: Keys.cleanAIMarkdown) != nil {
+            self.cleanAIMarkdown = defaults.bool(forKey: Keys.cleanAIMarkdown)
+        } else {
+            self.cleanAIMarkdown = true
         }
     }
 }

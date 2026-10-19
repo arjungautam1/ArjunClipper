@@ -25,7 +25,7 @@ public final class ClippingStore: ObservableObject {
         load()
     }
     
-    public func add(content: String, sourceAppName: String?, sourceBundleId: String?) {
+    public func add(content: String, htmlContent: String? = nil, sourceAppName: String?, sourceBundleId: String?) {
         queue.async { [weak self] in
             guard let self = self else { return }
             
@@ -42,6 +42,7 @@ public final class ClippingStore: ObservableObject {
                 let updated = Clipping(
                     id: existing.id,
                     content: existing.content,
+                    htmlContent: htmlContent ?? existing.htmlContent,
                     timestamp: Date(),
                     sourceAppName: sourceAppName ?? existing.sourceAppName,
                     sourceBundleId: sourceBundleId ?? existing.sourceBundleId,
@@ -51,6 +52,7 @@ public final class ClippingStore: ObservableObject {
             } else {
                 let newClip = Clipping(
                     content: content,
+                    htmlContent: htmlContent,
                     timestamp: Date(),
                     sourceAppName: sourceAppName,
                     sourceBundleId: sourceBundleId,

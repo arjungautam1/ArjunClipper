@@ -333,11 +333,14 @@ public final class BezelWindowController: NSWindowController {
         guard currentIndex < clippings.count else { return }
         let item = clippings[currentIndex]
         
+        let isAIMarkdown = PreferencesManager.shared.cleanAIMarkdown && AIMarkdownFormatter.containsAIMarkdown(item.content)
+        let displayContent = isAIMarkdown ? AIMarkdownFormatter.cleanMarkdown(item.content) : item.content
+        
         titleLabel.stringValue = "Clipping #\(currentIndex + 1) of \(clippings.count)"
         if let app = item.sourceAppName {
-            metaLabel.stringValue = "From \(app)"
+            metaLabel.stringValue = isAIMarkdown ? "From \(app) ✨" : "From \(app)"
         } else {
-            metaLabel.stringValue = "\(item.characterCount) chars"
+            metaLabel.stringValue = isAIMarkdown ? "✨ AI Cleaned" : "\(item.characterCount) chars"
         }
         
         // High-contrast, bright white text styling
@@ -350,7 +353,7 @@ public final class BezelWindowController: NSWindowController {
             .paragraphStyle: paragraphStyle
         ]
         
-        let attributedContent = NSAttributedString(string: item.content, attributes: attrs)
+        let attributedContent = NSAttributedString(string: displayContent, attributes: attrs)
         contentTextView.textStorage?.setAttributedString(attributedContent)
         contentTextView.scrollToBeginningOfDocument(nil)
     }

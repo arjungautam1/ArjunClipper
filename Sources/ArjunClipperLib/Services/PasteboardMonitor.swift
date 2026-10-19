@@ -37,9 +37,32 @@ public final class PasteboardMonitor {
     }
     
     public func copyToClipboard(clipping: Clipping) {
-        self.lastCopiedContent = clipping.content
         pasteboard.clearContents()
-        pasteboard.setString(clipping.content, forType: .string)
+        
+        let shouldCleanAI = PreferencesManager.shared.cleanAIMarkdown
+        let rawContent = clipping.content
+        
+        if shouldCleanAI && AIMarkdownFormatter.containsAIMarkdown(rawContent) {
+            let cleanPlain = AIMarkdownFormatter.cleanMarkdown(rawContent)
+            let html = AIMarkdownFormatter.toHTML(rawContent)
+            let rtf = AIMarkdownFormatter.toRTF(html: html)
+            
+            self.lastCopiedContent = cleanPlain
+            pasteboard.setString(cleanPlain, forType: .string)
+            pasteboard.setString(html, forType: .html)
+            if let rtf = rtf {
+                pasteboard.setData(rtf, forType: .rtf)
+            }
+            print("[ArjunClipper] Formatted AI Markdown to clean plain text + rich HTML/RTF (No raw asterisks)")
+        } else if let savedHtml = clipping.htmlContent {
+            self.lastCopiedContent = rawContent
+            pasteboard.setString(rawContent, forType: .string)
+            pasteboard.setString(savedHtml, forType: .html)
+        } else {
+            self.lastCopiedContent = rawContent
+            pasteboard.setString(rawContent, forType: .string)
+        }
+        
         lastChangeCount = pasteboard.changeCount
     }
     
@@ -63,6 +86,7 @@ public final class PasteboardMonitor {
         let appName = frontApp?.localizedName
         let bundleId = frontApp?.bundleIdentifier
         let types = pasteboard.types ?? []
+        let htmlContent = pasteboard.string(forType: .html) ?? pasteboard.string(forType: NSPasteboard.PasteboardType("public.html"))
         
         let filter = PreferencesManager.shared.filter
         let result = filter.shouldCopy(
@@ -77,6 +101,7 @@ public final class PasteboardMonitor {
             lastRejectedReason = nil
             ClippingStore.shared.add(
                 content: content,
+                htmlContent: htmlContent,
                 sourceAppName: appName,
                 sourceBundleId: bundleId
             )

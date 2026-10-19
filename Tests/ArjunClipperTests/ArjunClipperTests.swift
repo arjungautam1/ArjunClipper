@@ -130,4 +130,28 @@ final class ArjunClipperTests: XCTestCase {
         XCTAssertFalse(preview.contains("\n"))
         XCTAssertTrue(preview.hasSuffix("…"))
     }
+    
+    func testAIMarkdownCleanerAndFormatter() {
+        let sample = "I’m excited to share **ArjunClipper**, a native clipboard manager for macOS."
+        
+        // 1. Detection
+        XCTAssertTrue(AIMarkdownFormatter.containsAIMarkdown(sample))
+        XCTAssertFalse(AIMarkdownFormatter.containsAIMarkdown("Just normal plain text with no markdown"))
+        
+        // 2. Clean plain text (removes raw ** for LinkedIn, Twitter, Slack, Terminal)
+        let cleaned = AIMarkdownFormatter.cleanMarkdown(sample)
+        XCTAssertEqual(cleaned, "I’m excited to share ArjunClipper, a native clipboard manager for macOS.")
+        XCTAssertFalse(cleaned.contains("**"))
+        
+        // 3. Rich HTML (renders <strong> for Google Docs, Word, Pages)
+        let html = AIMarkdownFormatter.toHTML(sample)
+        XCTAssertTrue(html.contains("<strong>ArjunClipper</strong>"))
+        XCTAssertFalse(html.contains("**ArjunClipper**"))
+        
+        // 4. Bullet list conversion
+        let listSample = "- Feature 1\n* Feature 2"
+        let cleanedList = AIMarkdownFormatter.cleanMarkdown(listSample)
+        XCTAssertTrue(cleanedList.contains("• Feature 1"))
+        XCTAssertTrue(cleanedList.contains("• Feature 2"))
+    }
 }
