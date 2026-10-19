@@ -146,6 +146,10 @@ public final class MenuBarController: NSObject, NSMenuDelegate {
         prefsItem.target = self
         menu.addItem(prefsItem)
         
+        let updateItem = NSMenuItem(title: "Check for Updates...", action: #selector(checkForUpdates), keyEquivalent: "")
+        updateItem.target = self
+        menu.addItem(updateItem)
+        
         let clearItem = NSMenuItem(title: "Clear Unpinned History", action: #selector(clearHistory), keyEquivalent: "")
         clearItem.target = self
         menu.addItem(clearItem)
@@ -218,6 +222,10 @@ public final class MenuBarController: NSObject, NSMenuDelegate {
     
     @objc private func openPreferences() {
         PreferencesWindowController.shared.show()
+    }
+    
+    @objc private func checkForUpdates() {
+        UpdateManager.shared.checkForUpdates(silent: false)
     }
     
     @objc private func openAccessibilitySettings() {

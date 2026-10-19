@@ -257,7 +257,36 @@ public struct PreferencesView: View {
             }) {
                 Label("Clear All Unpinned Clippings", systemImage: "trash")
             }
-            .padding(.top, 8)
+            .padding(.top, 4)
+            
+            Divider()
+                .padding(.vertical, 4)
+            
+            VStack(alignment: .leading, spacing: 10) {
+                Text("Software Updates")
+                    .font(.headline)
+                
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("ArjunClipper for Mac")
+                            .font(.subheadline)
+                            .bold()
+                        Text("Version \(UpdateManager.shared.currentVersion) (Universal Binary)")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    Spacer()
+                    Button(action: {
+                        UpdateManager.shared.checkForUpdates(silent: false)
+                    }) {
+                        Label("Check for Updates…", systemImage: "arrow.triangle.2.circlepath")
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .padding()
+                .background(Color(NSColor.controlBackgroundColor))
+                .cornerRadius(8)
+            }
             
             Spacer()
         }
