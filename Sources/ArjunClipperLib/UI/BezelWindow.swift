@@ -66,7 +66,7 @@ public final class BezelWindowController: NSWindowController {
     
     private init() {
         let window = KeyableHUDPanel(
-            contentRect: NSRect(x: 0, y: 0, width: 500, height: 350),
+            contentRect: NSRect(x: 0, y: 0, width: 520, height: 360),
             styleMask: [.borderless],
             backing: .buffered,
             defer: false
@@ -77,7 +77,7 @@ public final class BezelWindowController: NSWindowController {
         window.level = .floating
         window.hasShadow = true
         window.isMovableByWindowBackground = true
-        window.appearance = NSAppearance(named: .vibrantDark)
+        window.appearance = NSAppearance(named: .darkAqua) ?? NSAppearance(named: .vibrantDark)
         
         super.init(window: window)
         
@@ -93,27 +93,42 @@ public final class BezelWindowController: NSWindowController {
         
         let visualEffect = NSVisualEffectView(frame: window.contentView!.bounds)
         visualEffect.autoresizingMask = [.width, .height]
-        visualEffect.material = .hudWindow
+        visualEffect.material = .popover
         visualEffect.state = .active
         visualEffect.appearance = NSAppearance(named: .vibrantDark)
         visualEffect.wantsLayer = true
-        visualEffect.layer?.cornerRadius = 20
+        // 96% dark charcoal slate so white backgrounds (Google Docs, Word, Safari) NEVER wash it out
+        visualEffect.layer?.backgroundColor = NSColor(red: 0.10, green: 0.11, blue: 0.14, alpha: 0.96).cgColor
+        visualEffect.layer?.cornerRadius = 18
         visualEffect.layer?.masksToBounds = true
+        // Crisp, refined glass border for razor-sharp definition against pure white backgrounds
+        visualEffect.layer?.borderWidth = 1.0
+        visualEffect.layer?.borderColor = NSColor(white: 1.0, alpha: 0.20).cgColor
         
         // Header: Index & Source App
-        titleLabel.font = NSFont.systemFont(ofSize: 15, weight: .bold)
+        titleLabel.font = NSFont.systemFont(ofSize: 14, weight: .bold)
         titleLabel.textColor = .white
-        titleLabel.frame = NSRect(x: 24, y: 302, width: 260, height: 24)
+        titleLabel.frame = NSRect(x: 24, y: 316, width: 260, height: 24)
         visualEffect.addSubview(titleLabel)
         
-        metaLabel.font = NSFont.systemFont(ofSize: 12, weight: .medium)
-        metaLabel.textColor = NSColor(white: 0.75, alpha: 1.0)
+        metaLabel.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
+        metaLabel.textColor = NSColor(red: 0.60, green: 0.80, blue: 1.0, alpha: 1.0)
         metaLabel.alignment = .right
-        metaLabel.frame = NSRect(x: 284, y: 304, width: 192, height: 20)
+        metaLabel.frame = NSRect(x: 284, y: 318, width: 212, height: 20)
         visualEffect.addSubview(metaLabel)
         
-        // ScrollView Content Area
-        let scrollFrame = NSRect(x: 24, y: 64, width: 452, height: 228)
+        // Dedicated dark contrast well for clipping content
+        let contentWell = NSView(frame: NSRect(x: 20, y: 56, width: 480, height: 246))
+        contentWell.wantsLayer = true
+        contentWell.layer?.backgroundColor = NSColor(red: 0.04, green: 0.05, blue: 0.07, alpha: 0.90).cgColor
+        contentWell.layer?.cornerRadius = 10
+        contentWell.layer?.masksToBounds = true
+        contentWell.layer?.borderWidth = 0.5
+        contentWell.layer?.borderColor = NSColor(white: 1.0, alpha: 0.12).cgColor
+        visualEffect.addSubview(contentWell)
+        
+        // ScrollView Content Area inside the well
+        let scrollFrame = NSRect(x: 10, y: 8, width: 460, height: 230)
         scrollView.frame = scrollFrame
         scrollView.borderType = .noBorder
         scrollView.hasVerticalScroller = true
@@ -140,7 +155,7 @@ public final class BezelWindowController: NSWindowController {
         contentTextView.isSelectable = true
         contentTextView.backgroundColor = .clear
         contentTextView.drawsBackground = false
-        contentTextView.textColor = .white
+        contentTextView.textColor = NSColor(white: 0.98, alpha: 1.0)
         contentTextView.font = NSFont.monospacedSystemFont(ofSize: 13, weight: .regular)
         
         // Allow clicking on content to paste immediately
@@ -148,20 +163,22 @@ public final class BezelWindowController: NSWindowController {
         contentTextView.addGestureRecognizer(clickRecognizer)
         
         scrollView.documentView = contentTextView
-        visualEffect.addSubview(scrollView)
+        contentWell.addSubview(scrollView)
         
         // Footer: Action button & shortcut hints
         let pasteButton = NSButton(title: "↵ Paste to Active App", target: self, action: #selector(pasteButtonClicked))
         pasteButton.bezelStyle = .rounded
-        pasteButton.font = NSFont.systemFont(ofSize: 11, weight: .bold)
-        pasteButton.frame = NSRect(x: 24, y: 16, width: 160, height: 28)
+        pasteButton.bezelColor = NSColor.systemBlue
+        pasteButton.contentTintColor = .white
+        pasteButton.font = NSFont.systemFont(ofSize: 12, weight: .bold)
+        pasteButton.frame = NSRect(x: 20, y: 14, width: 175, height: 30)
         visualEffect.addSubview(pasteButton)
         
-        let hintLabel = NSTextField(labelWithString: "↑/↓ Cycle  •  Click / Enter Paste  •  Esc Close")
-        hintLabel.font = NSFont.systemFont(ofSize: 11, weight: .semibold)
-        hintLabel.textColor = NSColor(white: 0.65, alpha: 1.0)
+        let hintLabel = NSTextField(labelWithString: "↑/↓ Cycle   •   Enter Paste   •   Esc Close")
+        hintLabel.font = NSFont.systemFont(ofSize: 11, weight: .medium)
+        hintLabel.textColor = NSColor(white: 0.85, alpha: 1.0)
         hintLabel.alignment = .right
-        hintLabel.frame = NSRect(x: 190, y: 20, width: 286, height: 20)
+        hintLabel.frame = NSRect(x: 200, y: 18, width: 300, height: 20)
         visualEffect.addSubview(hintLabel)
         
         window.contentView = visualEffect
